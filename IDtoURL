@@ -1,5 +1,5 @@
 local gameIDToUrl = {
-    [5750914919] = "https://raw.githubusercontent.com/henrick001/ROBLOX/main/Games/Fisch_loader.lua",  -- Fisch
+    [5750914919] = "https://raw.githubusercontent.com/henrick001/ROBLOX/main/Games/Fisch_loader",  -- Fisch
 }
 
 return function()
