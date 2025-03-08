@@ -1,0 +1,17 @@
+local gameIDToUrl = {
+    [16732694052] = "",  -- Fisch
+}
+
+-- Function to get the URL for the current game
+local function GetGameScriptUrl()
+    local currentGameId = game.GameId
+    local url = gameIDToUrl[currentGameId]
+
+    if url then
+        return url
+    else
+        local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+        Fluent:Notify({Title = "Hooked Hub", Content = "Unsupported Game", Duration = 3})
+        return nil
+    end
+end
