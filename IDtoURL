@@ -1,5 +1,5 @@
 local gameIDToUrl = {
-    [16732694052] = "",  -- Fisch
+    [16732694052] = "https://raw.githubusercontent.com/henrick001/ROBLOX/refs/heads/main/Games/Fisch%20loader",  -- Fisch
 }
 
 -- Function to get the URL for the current game
