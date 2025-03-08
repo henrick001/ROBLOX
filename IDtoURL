@@ -10,8 +10,6 @@ local function GetGameScriptUrl()
     if url then
         return url
     else
-        local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-        Fluent:Notify({Title = "Hooked Hub", Content = "Unsupported Game", Duration = 3})
         return nil
     end
 end
