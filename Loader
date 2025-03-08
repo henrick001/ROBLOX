@@ -1,10 +1,5 @@
--- First, load the script that contains the `GetGameScriptUrl` function using loadstring
 loadstring(game:HttpGet('https://raw.githubusercontent.com/henrick001/ROBLOX/refs/heads/main/IDtoURL'))()
-
--- Call the function to get the script URL for the current game
 local gameScriptUrl = GetGameScriptUrl()
-
--- If the URL is found, fetch and execute the game script
 if gameScriptUrl then
     local success, response = pcall(function()
         return game:HttpGet(gameScriptUrl, true)  -- Fetch the script from the URL
