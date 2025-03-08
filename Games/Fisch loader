@@ -14,7 +14,10 @@ local win = lib:Window("Hooked Loader", Color3.fromRGB(44, 120, 224), Enum.KeyCo
 
 --> TABS
 local scripttab = win:Tab("Scripts")
-
+scripttab:Button("Join discord (For script updates)", function()
+    lib:Notification("Copied", "invite copied to clipboard", "Thanks!")
+    setclipboard("https://discord.gg/9NeYcVN94V")
+end)
 scripttab:Button("Old version with working auto farm at location", function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/henrick001/ROBLOX/refs/heads/main/Games/Fisch(old)'))()
 end)
