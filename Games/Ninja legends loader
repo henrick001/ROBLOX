@@ -1,0 +1,26 @@
+repeat
+    wait()
+until game:IsLoaded()
+  
+if game:GetService("CoreGui"):FindFirstChild("ui") then
+    game:GetService("CoreGui"):FindFirstChild("ui"):Destroy()
+end
+  
+--> INITIALIZING LIBRARY
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt"))()
+  
+--> CREATING WINDOW
+local win = lib:Window("Hooked Loader", Color3.fromRGB(44, 120, 224), Enum.KeyCode.LeftAlt)
+
+--> TABS
+local scripttab = win:Tab("Scripts")
+scripttab:Button("Join discord (For script updates)", function()
+    lib:Notification("Copied", "invite copied to clipboard", "Thanks!")
+    setclipboard("https://discord.gg/9NeYcVN94V")
+end)
+scripttab:Button("Xeno / Solora version", function()
+    
+end)
+scripttab:Button("Better exec version (velocity recco)", function()
+    loadstring(game:HttpGet(''))()
+end)
