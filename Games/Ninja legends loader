@@ -19,7 +19,7 @@ scripttab:Button("Join discord (For script updates)", function()
     setclipboard("https://discord.gg/9NeYcVN94V")
 end)
 scripttab:Button("Xeno / Solora version", function()
-    
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/henrick001/ROBLOX/refs/heads/main/Games/Xeno%20ninja%20legends'))()
 end)
 scripttab:Button("Better exec version (velocity recco)", function()
     loadstring(game:HttpGet(''))()
