@@ -1,0 +1,356 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Ninja Legends",
+    LoadingTitle = "Ninja Legends",
+    Theme = "Default",
+ })
+
+
+ -- TABS
+ local FarmTab = Window:CreateTab("Farm", 4483362458)
+ local Shoptab = Window:CreateTab("Shop", 4483362458)
+ local UtilsTab = Window:CreateTab("Utility", 4483362458)
+
+
+--VARIABLES
+_G.autoswing = false
+_G.autosell = false
+local player = game:GetService("Players").LocalPlayer 
+local root
+
+local function updateRoot()
+    local character = player.Character or player.CharacterAdded:Wait()
+    root = character:WaitForChild("HumanoidRootPart")
+end
+
+updateRoot() -- Set root initially
+player.CharacterAdded:Connect(updateRoot) -- Auto-update when the player respawns
+local AutoBuySwords = false
+local AutoBuyBelts = false
+local Autofarmboss = false
+_G.autohoop = false
+_G.autochi = false
+_G.autohoop = false
+
+--FUNCTIONS
+
+function autoswingfunc()
+    while _G.autoswing do
+        game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("swingKatana")
+        for _,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v:FindFirstChild("ninjitsuGain") then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                
+                
+                break
+            end
+        end
+        wait(0.01)
+    end
+end
+
+function autosellfunc()
+    while _G.autosell do 
+        game.workspace.sellAreaCircles:GetChildren()[20].circleInner.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        wait(0.1)
+        game.workspace.sellAreaCircles:GetChildren()[20].circleInner.CFrame = CFrame.new(0,0,0)
+        wait(0.1)
+    end
+end
+
+
+
+
+
+
+local Toggle = FarmTab:CreateToggle({
+   Name = "Auto Swing",
+   CurrentValue = false,
+   Callback = function(Value)
+        _G.autoswing = Value
+        autoswingfunc()
+   end,
+})
+
+local Toggle = FarmTab:CreateToggle({
+    Name = "Auto Sell (X35)",
+    CurrentValue = false,
+    Callback = function(Value)
+         _G.autosell = Value
+         autosellfunc()
+    end,
+ })
+
+ local Button = UtilsTab:CreateButton({
+    Name = "Unlock all islands",
+    Callback = function()
+        local oldcframe = root.CFrame
+        for i, v in pairs(game.workspace.islandUnlockParts:GetChildren()) do
+            root.CFrame = v.CFrame
+            wait(0.1)
+        end
+        wait(0.1)
+        root.CFrame = oldcframe
+    end,
+ })
+
+ local Button = Shoptab:CreateButton({
+    Name = "Buy all swords",
+    Callback = function()
+        game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("buyAllSwords","Blazing Vortex Island" )
+    end,
+ })
+
+ local Button = Shoptab:CreateButton({
+    Name = "Buy all belts",
+    Callback = function()
+        game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("buyAllBelts","Blazing Vortex Island" )
+    end,
+ })
+
+ local ToggleSwords = Shoptab:CreateToggle({
+    Name = "Auto buy all swords",
+    CurrentValue = false,
+    Callback = function(Value)
+        AutoBuySwords = Value
+        while AutoBuySwords do
+            game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("buyAllSwords", "Blazing Vortex Island")
+            wait(0.7)
+            if not AutoBuySwords then break end
+        end
+    end,
+})
+
+local ToggleBelts = Shoptab:CreateToggle({
+    Name = "Auto buy all belts",
+    CurrentValue = false,
+    Callback = function(Value)
+        AutoBuyBelts = Value
+        while AutoBuyBelts do
+            game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("buyAllBelts", "Blazing Vortex Island")
+            wait(0.7)
+            if not AutoBuyBelts then break end
+        end
+    end,
+})
+
+--[[
+local Button = UtilsTab:CreateButton({
+    Name = "Inf double jumps",
+    Callback = function()
+        local mt = getrawmetatable(game);
+        setreadonly(mt, false);
+        local old_index = mt.__index;
+        mt.__index = function(a, b)
+            if tostring(a) == "multiJumpCount" then
+                if tostring(b) == "Value" then
+                    return math.huge
+                end
+            end
+            return old_index(a, b)
+        end
+    end,
+ })
+
+ local Button = UtilsTab:CreateButton({
+    Name = "Auto collect all chi",
+    Callback = function()
+        for i, v in pairs(workspace.spawnedCoins:GetChildren()) do
+            for i, v in pairs(v:GetChildren()) do
+                if v.Name == "Blue Chi Crate" or v.Name == "Chi" or v.Name == "Chi Crate" then
+                    
+                    root.CFrame = v.CFrame
+                    wait(0.0000000000001)
+                end
+            end
+        end
+    end,
+ })--]]
+
+ local Button = UtilsTab:CreateButton({
+    Name = "Open shop (xeno version)",
+    Callback = function()
+        root.CFrame = workspace.shopAreaCircles.shopAreaCircle19.circleInner.CFrame
+    end,
+ })
+--[[
+ local Button = UtilsTab:CreateButton({
+    Name = "Open shop",
+    Callback = function()
+        firetouchinterest(root, workspace.shopAreaCircles.shopAreaCircle19.circleInner, 0)
+    end,
+ })--]]
+
+
+
+ local ToggleBoss = FarmTab:CreateToggle({
+    Name = "Auto farm bosses",
+    CurrentValue = false,
+    Callback = function(Value)
+        Autofarmboss = Value
+        while Autofarmboss do
+            boss1 = workspace.bossFolder:FindFirstChild("RobotBoss")
+            boss2 = workspace.bossFolder:FindFirstChild("EternalBoss")
+            boss3 = workspace.bossFolder:FindFirstChild("AncientMagmaBoss")
+
+            if boss1 then
+                game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("swingKatana")
+                for _,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v:FindFirstChild("ninjitsuGain") then
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                        
+                        break
+                    end
+                end
+                root.CFrame = boss1.UpperTorso.CFrame
+            end
+
+            if boss2 then
+                game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("swingKatana")
+                for _,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v:FindFirstChild("ninjitsuGain") then
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                        
+                        break
+                    end
+                end
+                root.CFrame = boss2.UpperTorso.CFrame
+            end
+
+            if boss3 then
+                game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("swingKatana")
+                for _,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v:FindFirstChild("ninjitsuGain") then
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                        
+                        break
+                    end
+                end
+                root.CFrame = boss3.UpperTorso.CFrame
+            end
+            task.wait(0.01)
+        end
+    end,
+})
+
+
+local Button = UtilsTab:CreateButton({
+    Name = "Unlock all elements (WILL RESET YOUR DATA), OP",
+    Callback = function()
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Frost")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Inferno")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Lightning")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Electral Chaos")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Masterful Wrath")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Shadow Charge")
+        game.ReplicatedStorage.rEvents.elementMasteryEvent:FireServer("Shadowfire")
+    end,
+ })
+
+
+ local Button = Shoptab:CreateButton({
+    Name = "Buy all skills",
+    Callback = function()
+        game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("buyAllSkills", "Blazing Vortex Island")
+    end,
+ })
+
+ local TogglePopups = UtilsTab:CreateToggle({
+    Name = "Disable popups",
+    CurrentValue = false,
+    Callback = function(Value)
+        local function updateGUI()
+            local playerGui = player:WaitForChild("PlayerGui")
+            local statGui = playerGui:WaitForChild("statEffectsGui", 3) -- Wait for GUI to load
+            if statGui then
+                statGui.Enabled = not Value
+            end
+        end
+
+        updateGUI()
+        player.CharacterAdded:Connect(updateGUI) -- Update GUI when resetting
+    end,
+})
+
+
+
+local ToggleAutoHoops = UtilsTab:CreateToggle({
+    Name = "Auto farms hoops (slow TP method, xeno)",
+    CurrentValue = false,
+    Callback = function(Value)
+        local beforecf = root.CFrame
+        _G.autohoop = Value
+        while _G.autohoop do
+            for i, v in pairs(game.Workspace.Hoops:GetChildren()) do
+                if v.Name == "Hoop" then
+                    if _G.autohoop then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                        wait(0.0000000000000001)
+                    else root.CFrame = beforecf
+                    end
+                end
+            end
+        end
+    end,
+})
+--[[
+local ToggleAutoChi = UtilsTab:CreateToggle({
+    Name = "Auto farms Chi, xeno",
+    CurrentValue = false,
+    Callback = function(Value)
+        local beforecf1 = root.CFrame
+        _G.autochi = Value
+        while _G.autochi do
+            for i, v in pairs(game.Workspace.spawnedCoins:GetChildren()) do
+                for i, v in pairs(v:GetChildren()) do
+                if v.Name == "Blue Chi Crate" or v.Name == "Chi" or v.Name == "Chi Crate" then
+                    if _G.autochi then
+                        root.CFrame = v.CFrame
+                        wait(0.1)
+                    else root.CFrame = beforecf1
+                    end
+                end
+                end
+            end
+        end
+    end,
+})--]]
+
+
+local ToggleAutoChi = UtilsTab:CreateToggle({
+    Name = "Inf Invis (You need the skill, not working rn)",
+    CurrentValue = false,
+    Callback = function(Value)
+        while Value do
+            game:GetService("Players").LocalPlayer:WaitForChild("ninjaEvent"):FireServer("goInvisible")
+            wait(3)
+        end
+    end,
+})
+
+local ToggleAutoHoopsfast = UtilsTab:CreateToggle({
+    Name = "Auto farms hoops (fast remote method)",
+    CurrentValue = false,
+    Callback = function(Value)
+        _G.autohoop2 = Value
+        while _G.autohoop2 do
+            for i, v in pairs(game.Workspace.Hoops:GetChildren()) do
+                    if _G.autohoop2 then
+                        wait(0.000000000000000000000000000000000000000000000001)
+                        game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("hoopEvent"):FireServer("useHoop", v)
+                    else print("ended autofarm") 
+                end
+            end
+        end
+    end,
+})
+
+
+--[[
+local Button = UtilsTab:CreateButton({
+    Name = "Open cloning ui",
+    Callback = function()
+        firetouchinterest(root, workspace.cloningAreaCircle.circleInner, 0)
+    end,
+ })--]]
