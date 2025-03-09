@@ -10,7 +10,7 @@ end
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt"))()
   
 --> CREATING WINDOW
-local win = lib:Window("Hooked Loader", Color3.fromRGB(44, 120, 224), Enum.KeyCode.LeftAlt)
+local win = lib:Window("Fisch Loader", Color3.fromRGB(44, 120, 224), Enum.KeyCode.LeftAlt)
 
 --> TABS
 local scripttab = win:Tab("Scripts")
